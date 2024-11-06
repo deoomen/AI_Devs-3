@@ -7,7 +7,7 @@ from pprint import pprint, pp
 class Mission01:
 
     name = '01'
-    url = 'https://xyz.ag3nts.org'
+    url = getenv('ROBOTS_SYSTEM_URL')
 
     def run(self) -> None:
         print('Mission 01')
@@ -35,8 +35,8 @@ class Mission01:
         response = post(
             self.url,
             {
-                'username': 'tester',
-                'password': '574e112a',
+                'username': getenv('ROBOTS_SYSTEM_USER'),
+                'password': getenv('ROBOTS_SYSTEM_PASSWORD'),
                 'answer': answer,
             }
         )
