@@ -1,5 +1,6 @@
 from services.AIDevs3 import AIDevs3
 from requests import get
+from os import getenv
 
 class Mission00:
 
@@ -10,6 +11,6 @@ class Mission00:
 
         aidevs = AIDevs3()
 
-        with get("https://poligon.aidevs.pl/dane.txt") as response:
+        with get(getenv("POLIGON_API_URL") + "/dane.txt") as response:
             result = aidevs.answer(self.name, response.text.strip().split('\n'))
             print(result)
