@@ -2,6 +2,7 @@ import logging
 import sys
 from missions.mission00.mission00 import Mission00
 from missions.mission01.mission01 import Mission01
+from missions.mission02.mission02 import Mission02
 
 def init_loggers() -> None:
     level = logging.INFO
@@ -23,6 +24,8 @@ if __name__ == '__main__':
             mission_number = input("""
 Which mission do you want to run?
 00 - POLIGON
+01
+02
 """)
         else:
             mission_number = sys.argv[1]
@@ -31,6 +34,8 @@ Which mission do you want to run?
             mission = Mission00()
         elif '01' == mission_number or '1' == mission_number:
             mission = Mission01()
+        elif '02' == mission_number or '2' == mission_number:
+            mission = Mission02()
         else:
             raise RuntimeError('Unknown mission "{}"'.format(mission_number))
 
