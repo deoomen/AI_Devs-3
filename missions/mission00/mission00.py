@@ -10,7 +10,8 @@ class Mission00:
         print("Mission 00 - POLIGON")
 
         aidevs = AIDevs3()
+        api_url = getenv("POLIGON_API_URL")
 
-        with get(getenv("POLIGON_API_URL") + "/dane.txt") as response:
-            result = aidevs.answer(self.name, response.text.strip().split('\n'))
+        with get(api_url + "/dane.txt") as response:
+            result = aidevs.answer(api_url + '/verify', self.name, response.text.strip().split("\n"))
             print(result)

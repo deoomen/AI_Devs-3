@@ -1,4 +1,5 @@
 .idea
 .env
 .venv
-system.html
+missions/**/*.html
+missions/**/*.json
