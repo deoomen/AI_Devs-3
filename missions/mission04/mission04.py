@@ -1,7 +1,6 @@
 import logging
 from os import getenv
 from openai import OpenAI
-from pprint import pprint
 
 class Mission04:
 
