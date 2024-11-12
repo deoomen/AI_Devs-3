@@ -5,7 +5,7 @@ from missions.mission01.mission01 import Mission01
 from missions.mission02.mission02 import Mission02
 from missions.mission03.mission03 import Mission03
 from missions.mission04.mission04 import Mission04
-
+from missions.mission06.mission06 import Mission06
 
 def init_loggers() -> None:
     level = logging.INFO
@@ -31,6 +31,7 @@ Which mission do you want to run?
 02
 03 - JSON
 04
+06 - mp3
 """)
         else:
             mission_number = sys.argv[1]
@@ -45,6 +46,8 @@ Which mission do you want to run?
             mission = Mission03()
         elif '04' == mission_number or '4' == mission_number:
             mission = Mission04()
+        elif '06' == mission_number or '6' == mission_number:
+            mission = Mission06()
         else:
             raise RuntimeError('Unknown mission "{}"'.format(mission_number))
 

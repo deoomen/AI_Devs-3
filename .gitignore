@@ -3,3 +3,5 @@
 .venv
 missions/**/*.html
 missions/**/*.json
+missions/**/*.m4a
+missions/**/*.txt
