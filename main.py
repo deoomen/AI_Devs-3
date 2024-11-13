@@ -1,11 +1,6 @@
 import logging
 import sys
-from missions.mission00.mission00 import Mission00
-from missions.mission01.mission01 import Mission01
-from missions.mission02.mission02 import Mission02
-from missions.mission03.mission03 import Mission03
-from missions.mission04.mission04 import Mission04
-from missions.mission06.mission06 import Mission06
+from importlib import import_module
 
 def init_loggers() -> None:
     level = logging.INFO
@@ -36,22 +31,15 @@ Which mission do you want to run?
         else:
             mission_number = sys.argv[1]
 
-        if '00' == mission_number or '0' == mission_number:
-            mission = Mission00()
-        elif '01' == mission_number or '1' == mission_number:
-            mission = Mission01()
-        elif '02' == mission_number or '2' == mission_number:
-            mission = Mission02()
-        elif '03' == mission_number or '3' == mission_number:
-            mission = Mission03()
-        elif '04' == mission_number or '4' == mission_number:
-            mission = Mission04()
-        elif '06' == mission_number or '6' == mission_number:
-            mission = Mission06()
-        else:
-            raise RuntimeError('Unknown mission "{}"'.format(mission_number))
+        try:
+            mission_module = import_module(f"missions.mission{mission_number}.mission{mission_number}")
+            mission_class = getattr(mission_module, f"Mission{mission_number}")
 
-        mission.run()
+            mission = mission_class()
+            mission.run()
+
+        except (ModuleNotFoundError, AttributeError):
+            raise RuntimeError('Unknown mission "{}"'.format(mission_number))
 
     except Exception as exception:
         logging.exception(exception)
