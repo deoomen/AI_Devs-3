@@ -27,6 +27,7 @@ Which mission do you want to run?
 03 - JSON
 04
 06 - mp3
+07
 """)
         else:
             mission_number = sys.argv[1]
