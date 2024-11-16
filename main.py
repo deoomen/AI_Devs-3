@@ -29,6 +29,7 @@ Which mission do you want to run?
 06 - mp3
 07
 08 - robotid
+09 - kategorie
 """)
         else:
             mission_number = sys.argv[1]
@@ -40,7 +41,7 @@ Which mission do you want to run?
             mission = mission_class()
             mission.run()
 
-        except (ModuleNotFoundError, AttributeError):
+        except (ModuleNotFoundError):
             raise RuntimeError('Unknown mission "{}"'.format(mission_number))
 
     except Exception as exception:
