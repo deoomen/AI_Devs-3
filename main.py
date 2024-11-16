@@ -28,6 +28,7 @@ Which mission do you want to run?
 04
 06 - mp3
 07
+08 - robotid
 """)
         else:
             mission_number = sys.argv[1]
