@@ -1,5 +1,6 @@
 import logging
 import sys
+import asyncio
 from importlib import import_module
 
 def init_loggers() -> None:
@@ -14,7 +15,7 @@ def init_loggers() -> None:
 
     root.addHandler(stdout_handler)
 
-if __name__ == '__main__':
+async def main() -> None:
     init_loggers()
 
     try:
@@ -30,6 +31,7 @@ Which mission do you want to run?
 07
 08 - robotid
 09 - kategorie
+10 - arxiv
 """)
         else:
             mission_number = sys.argv[1]
@@ -39,7 +41,7 @@ Which mission do you want to run?
             mission_class = getattr(mission_module, f"Mission{mission_number}")
 
             mission = mission_class()
-            mission.run()
+            await mission.run()
 
         except (ModuleNotFoundError):
             raise RuntimeError('Unknown mission "{}"'.format(mission_number))
@@ -47,3 +49,6 @@ Which mission do you want to run?
     except Exception as exception:
         logging.exception(exception)
         exit(1)
+
+if __name__ == '__main__':
+    asyncio.run(main())

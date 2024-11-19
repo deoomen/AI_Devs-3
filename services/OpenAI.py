@@ -3,6 +3,8 @@ import base64
 from os import getenv
 from typing import Literal
 from openai import OpenAI as LLM_OpenAI
+from requests import get
+import io
 
 class OpenAI:
 
@@ -33,12 +35,12 @@ class OpenAI:
         with open(image_path, "rb") as image_file:
             return base64.b64encode(image_file.read()).decode('utf-8')
 
-    def __transform_list_to_dict(self, images_path: list) -> list:
+    def __transform_list_to_dict(self, images_path: list[str]) -> list:
         return [
             {
                 "type": "image_url",
                 "image_url": {
-                    "url": f"data:image/jpeg;base64,{self.__encode_image(image_path)}"
+                    "url": image_path if image_path.startswith("http") else f"data:image/jpeg;base64,{self.__encode_image(image_path)}"
                 },
             }
             for image_path in images_path
@@ -47,6 +49,7 @@ class OpenAI:
     def describe_image(
         self,
         model: Literal["gpt-4o", "gpt-4o-mini"],
+        system_message: str,
         user_message: str,
         images_path: list,
         temperature: float = 1.0,
@@ -57,6 +60,10 @@ class OpenAI:
             model=model,
             messages=[
                 {
+                    "role": "system",
+                    "content": system_message,
+                },
+                {
                     "role": "user",
                     "content": [{ "type": "text", "text": user_message }] + self.__transform_list_to_dict(images_path),
                 }
@@ -66,3 +73,30 @@ class OpenAI:
         logging.info(f"OpenAI image describe response: {content}")
 
         return content
+
+    def transcribe(
+        self,
+        file_path: str,
+        prompt: str,
+        language: str,
+        model: Literal["whisper-1"] = "whisper-1",
+        temperature: float = 1.0,
+    ) -> str:
+        logging.info("Processing audio file")
+
+        if file_path.startswith("http"):
+            file_buffer = io.BytesIO(get(file_path).content)
+            file_buffer.name = file_path.split("/")[-1]
+
+            transcription = self.__openai.audio.transcriptions.create(
+                file=file_buffer,
+                model=model,
+                prompt=prompt,
+                response_format="json",
+                language=language,
+                temperature=temperature,
+            ).text
+
+        logging.info(f"Audio transcriptions response: {transcription}")
+
+        return transcription

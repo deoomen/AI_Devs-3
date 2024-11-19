@@ -42,3 +42,10 @@ class AIDevs3:
         logging.info(json['message'])
 
         return json['message']
+
+    def send_report_to_headquarter(self, mission_name: str, report) -> None:
+        self.answer(
+            os.getenv("HEADQUARTERS_SYSTEM_URL") + "/report",
+            mission_name,
+            report,
+        )

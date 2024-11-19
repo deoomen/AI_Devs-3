@@ -6,4 +6,5 @@ missions/**/*.json
 missions/**/*.m4a
 missions/**/*.txt
 missions/**/*.png
+missions/**/*.md
 missions/pliki_z_fabryki

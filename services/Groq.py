@@ -2,6 +2,8 @@ import logging
 from os import getenv
 from typing import Literal
 from groq import Groq as LLM_Groq
+from requests import get
+import io
 
 class Groq:
 
@@ -19,15 +21,28 @@ class Groq:
         logging.debug("Arguments", model, prompt, language, file_path, temperature)
         transcription = None
 
-        with open(file_path, "rb") as file:
+        if file_path.startswith("http"):
+            file_buffer = io.BytesIO(get(file_path).content)
+            file_buffer.name = file_path.split("/")[-1]
             transcription = self.__groq.audio.transcriptions.create(
-                file=(file_path, file.read()),
+                file=file_buffer,
                 model=model,
                 prompt=prompt,
                 response_format="json",
                 language=language,
                 temperature=temperature,
             ).text
-            logging.info(f"Groq audio transcriptions response: {transcription}")
+        else:
+            with open(file_path, "rb") as file:
+                transcription = self.__groq.audio.transcriptions.create(
+                    file=(file_path, file.read()),
+                    model=model,
+                    prompt=prompt,
+                    response_format="json",
+                    language=language,
+                    temperature=temperature,
+                ).text
+
+        logging.info(f"Groq audio transcriptions response: {transcription}")
 
         return transcription

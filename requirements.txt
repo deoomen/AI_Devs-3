@@ -2,3 +2,8 @@ requests
 bs4
 openai
 groq
+asyncio
+crawl4ai
+marko
+pyquery
+markdownify
