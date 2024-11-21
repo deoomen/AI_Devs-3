@@ -32,6 +32,7 @@ Which mission do you want to run?
 08 - robotid
 09 - kategorie
 10 - arxiv
+11 - dokumenty
 """)
         else:
             mission_number = sys.argv[1]
