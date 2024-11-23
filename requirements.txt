@@ -7,3 +7,4 @@ crawl4ai
 marko
 pyquery
 markdownify
+qdrant-client

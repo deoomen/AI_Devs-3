@@ -100,3 +100,19 @@ class OpenAI:
         logging.info(f"Audio transcriptions response: {transcription}")
 
         return transcription
+
+    def createEmbedding(
+        self,
+        model: Literal["text-embedding-3-small", "text-embedding-3-large", "text-embedding-ada-002"],
+        input: str,
+        dimensions: int,
+    ) -> list[float]:
+        logging.info(f"Calling OpenAI embeddings. Model: {model} with {dimensions} dimensions.")
+
+        response = self.__openai.embeddings.create(
+            model=model,
+            input=input,
+            dimensions=dimensions,
+        )
+
+        return response.data[0].embedding

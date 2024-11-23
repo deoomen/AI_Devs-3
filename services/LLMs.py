@@ -107,3 +107,11 @@ class LLMs:
         logging.info(f"Audio transcriptions response: {transcription}")
 
         return transcription
+
+    def createEmbedding(
+        self,
+        model: Literal["text-embedding-3-small", "text-embedding-3-large", "text-embedding-ada-002"],
+        input: str,
+        dimensions: int,
+    ) -> list[float]:
+        return self.__llm["openai"].createEmbedding(model, input, dimensions)
