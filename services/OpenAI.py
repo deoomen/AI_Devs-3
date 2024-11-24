@@ -1,14 +1,20 @@
 import logging
 import base64
 from os import getenv
+from pprint import pprint
 from typing import Literal
 from openai import OpenAI as LLM_OpenAI
 from requests import get
+from typing import Self
 import io
 
 class OpenAI:
-
     __openai = LLM_OpenAI(api_key=getenv("OPENAI_API_KEY"))
+    __chat = {
+        "model": "",
+        "temperature": 1.0,
+        "messages": [],
+    }
 
     def complete(
         self,
@@ -28,6 +34,33 @@ class OpenAI:
             temperature=temperature,
         ).choices[0].message.content
         logging.info(f"OpenAI chat completions response: {content}")
+
+        return content
+
+    def reset_chat(self) -> Self:
+        self.__chat = {
+            "model": "",
+            "temperature": 1.0,
+            "messages": [],
+        }
+        return self
+
+    def set_chat_model(self, model: Literal["gpt-4o", "gpt-4o-mini"]) -> Self:
+        self.__chat["model"] = model
+        return self
+
+    def set_chat_system_message(self, system_message: str) -> Self:
+        self.__chat["messages"].append({"role": "system", "content": system_message})
+        return self
+
+    def chat(self, user_message: str) -> str:
+        self.__chat["messages"].append({"role": "user", "content": user_message})
+        content = self.__openai.chat.completions.create(
+            model=self.__chat["model"],
+            messages=self.__chat["messages"],
+            temperature=self.__chat["temperature"],
+        ).choices[0].message.content
+        self.__chat["messages"].append({"role": "assistant", "content": content})
 
         return content
 
