@@ -43,8 +43,8 @@ class AIDevs3:
 
         return json['message']
 
-    def send_report_to_headquarter(self, mission_name: str, report) -> None:
-        self.answer(
+    def send_report_to_headquarter(self, mission_name: str, report) -> str:
+        return self.answer(
             os.getenv("HEADQUARTERS_SYSTEM_URL") + "/report",
             mission_name,
             report,
