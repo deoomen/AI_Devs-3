@@ -8,3 +8,4 @@ marko
 pyquery
 markdownify
 qdrant-client
+neo4j
