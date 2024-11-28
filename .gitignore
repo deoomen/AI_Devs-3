@@ -4,6 +4,7 @@
 
 missions/**/*.html
 missions/**/*.json
+missions/**/*.jsonl
 missions/**/*.m4a
 missions/**/*.txt
 missions/**/*.png

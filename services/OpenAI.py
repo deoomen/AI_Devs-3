@@ -18,15 +18,16 @@ class OpenAI:
 
     def complete(
         self,
-        model: Literal["gpt-4o", "gpt-4o-mini"],
+        model: Literal["gpt-4o", "gpt-4o-mini", "custom"],
         system_message: str,
         user_message: str,
         temperature: float = 1.0,
+        custom_model: str|None = None,
     ) -> str:
         logging.info("Calling OpenAI chat completions")
         logging.debug("Arguments", model, system_message, user_message, temperature)
         content = self.__openai.chat.completions.create(
-            model=model,
+            model=custom_model if "custom" == model else model,
             messages=[
                 { "role": "system", "content": system_message },
                 { "role": "user", "content": user_message }
