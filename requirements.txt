@@ -10,3 +10,5 @@ markdownify
 qdrant-client
 neo4j
 pathvalidate
+fastapi
+uvicorn[standard]
